@@ -8,9 +8,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+
+      - name: Bajar ships
+        run: bash .github/scripts/bajar_ships.sh
 
       - name: Java 17
         uses: actions/setup-java@v4
@@ -23,7 +28,22 @@ jobs:
         with:
           gradle-version: '8.7'
 
+      - name: Llave de firma
+        env:
+          KS_B64: ${{ secrets.MOZZI_KEYSTORE_B64 }}
+        run: |
+          if [ -n "$KS_B64" ]; then
+            echo "$KS_B64" | base64 -d > "$RUNNER_TEMP/mozzi.jks"
+            echo "MOZZI_KS_PATH=$RUNNER_TEMP/mozzi.jks" >> "$GITHUB_ENV"
+            echo "Llave fija lista"
+          else
+            echo "::warning::Sin llave fija: se usa firma debug"
+          fi
+
       - name: Compilar APK
+        env:
+          MOZZI_KS_PASS: ${{ secrets.MOZZI_KEYSTORE_PASS }}
+          MOZZI_KEY_ALIAS: mozzi
         run: gradle assembleDebug --no-daemon
 
       - name: Subir APK

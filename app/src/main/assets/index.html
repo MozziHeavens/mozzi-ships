@@ -7,162 +7,154 @@
 <style>
   :root{
     --cielo-alto:#0E7FD0; --cielo:#3FB7E8; --bruma:#C9F3FF;
-    --azul-hondo:#06427A; --pasto:#5BC236; --pasto-claro:#9BE36A;
-    --h: min(60vw, 42vh);
+    --azul-hondo:#06427A; --pasto:#5BC236;
+    --h: min(58vw, 40vh);
+    --arriba: max(env(safe-area-inset-top), 22px);
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;height:100%;overflow:hidden}
   body{
-    font-family:"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
-    color:var(--azul-hondo);
+    font-family:"Segoe UI",Roboto,"Helvetica Neue",sans-serif;color:var(--azul-hondo);
     background:linear-gradient(var(--cielo-alto) 0%, var(--cielo) 38%, var(--bruma) 72%);
     display:flex;flex-direction:column;align-items:center;justify-content:space-evenly;
-    user-select:none;
+    user-select:none;padding-top:var(--arriba);
   }
-  /* Sol suave arriba */
   body::before{
-    content:"";position:fixed;top:-25vmin;left:50%;width:90vmin;height:90vmin;
-    transform:translateX(-50%);border-radius:50%;
-    background:radial-gradient(circle, rgba(255,255,255,.55), rgba(255,255,255,0) 60%);
-    pointer-events:none;
+    content:"";position:fixed;top:-25vmin;left:50%;width:90vmin;height:90vmin;transform:translateX(-50%);
+    border-radius:50%;background:radial-gradient(circle, rgba(255,255,255,.55), rgba(255,255,255,0) 60%);pointer-events:none;
   }
   .colinas{position:fixed;left:0;right:0;bottom:0;height:30vh;pointer-events:none}
   .colinas svg{width:100%;height:100%;display:block}
-
-  /* Burbujas */
   .burbujas{position:fixed;inset:0;pointer-events:none;overflow:hidden}
   .burbuja{
     position:absolute;bottom:-80px;border-radius:50%;
     background:radial-gradient(circle at 30% 28%, rgba(255,255,255,.95) 0 8%, rgba(255,255,255,.18) 30%, rgba(255,255,255,.04) 65%, rgba(255,255,255,.35) 100%);
-    border:1px solid rgba(255,255,255,.55);
-    animation:subir linear infinite;
+    border:1px solid rgba(255,255,255,.55);animation:subir linear infinite;
   }
-  @keyframes subir{
-    from{transform:translate(0,0)}
-    50%{transform:translate(18px,-55vh)}
-    to{transform:translate(-10px,-115vh)}
+  @keyframes subir{from{transform:translate(0,0)}50%{transform:translate(18px,-55vh)}to{transform:translate(-10px,-115vh)}}
+
+  .controles{position:fixed;top:calc(var(--arriba) - 6px);right:14px;display:flex;gap:8px;z-index:4}
+  .pastilla{
+    border:1px solid rgba(255,255,255,.9);border-radius:999px;padding:8px 14px;font:700 14px/1 "Segoe UI",Roboto,sans-serif;
+    color:var(--azul-hondo);background:linear-gradient(rgba(255,255,255,.75), rgba(255,255,255,.35));
+    box-shadow:inset 0 1px 0 #fff, 0 4px 12px rgba(4,55,105,.25);
   }
 
-  header{position:relative;text-align:center;z-index:2;margin-top:2vh}
-  h1{
-    margin:0;font-size:clamp(38px,11vw,64px);font-weight:800;letter-spacing:-.03em;line-height:1;
-    color:#fff;
-    text-shadow:0 2px 0 #7FD4FF, 0 4px 0 #1B78C4, 0 10px 22px rgba(4,50,100,.45);
-  }
+  header{position:relative;text-align:center;z-index:2;margin-top:3vh}
+  h1{margin:0;font-size:clamp(38px,11vw,64px);font-weight:800;letter-spacing:-.03em;line-height:1;color:#fff;
+    text-shadow:0 2px 0 #7FD4FF, 0 4px 0 #1B78C4, 0 10px 22px rgba(4,50,100,.45)}
   .sub{margin:.5em 0 0;font-size:15px;color:#E9FAFF;text-shadow:0 1px 2px rgba(4,50,100,.5)}
 
-  /* Carrusel de cartuchos */
-  .riel{
-    position:relative;z-index:2;width:100%;
-    display:flex;gap:4vw;align-items:center;
-    overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;
-    padding:3vh calc(50vw - var(--h)*.45);
-  }
+  .riel{position:relative;z-index:2;width:100%;display:flex;gap:4vw;align-items:center;overflow-x:auto;
+    scroll-snap-type:x mandatory;scrollbar-width:none;padding:3vh calc(50vw - var(--h)*.45)}
   .riel::-webkit-scrollbar{display:none}
-
   .cart{
-    flex:0 0 auto;width:calc(var(--h)*.9);height:var(--h);
-    scroll-snap-align:center;position:relative;
+    flex:0 0 auto;width:calc(var(--h)*.9);height:var(--h);scroll-snap-align:center;position:relative;
     border-radius:24px 24px 14px 14px;
     background:linear-gradient(165deg, rgba(255,255,255,.85), rgba(214,230,242,.55) 40%, rgba(150,175,196,.6));
     border:1px solid rgba(255,255,255,.9);
-    box-shadow: inset 0 3px 0 rgba(255,255,255,.95), inset 0 -8px 16px rgba(60,90,120,.18), 0 16px 30px rgba(4,55,105,.35);
-    transform:scale(.84);opacity:.65;
-    transition:transform .28s ease, opacity .28s ease, filter .28s ease;
+    box-shadow:inset 0 3px 0 rgba(255,255,255,.95), inset 0 -8px 16px rgba(60,90,120,.18), 0 16px 30px rgba(4,55,105,.35);
+    transform:scale(.84);opacity:.65;transition:transform .28s ease, opacity .28s ease;
   }
   .cart.activo{transform:scale(1);opacity:1}
-  /* Estrías de agarre */
-  .cart::before{
-    content:"";position:absolute;top:5%;left:14%;right:14%;height:9%;border-radius:8px;
-    background:repeating-linear-gradient(90deg, rgba(40,70,100,.18) 0 3px, rgba(255,255,255,.35) 3px 5px, transparent 5px 10px);
-  }
-  /* Conector de abajo */
-  .cart::after{
-    content:"";position:absolute;bottom:-7px;left:28%;right:28%;height:12px;
-    border-radius:0 0 10px 10px;background:linear-gradient(rgba(140,160,180,.9), rgba(95,118,140,.9));
-  }
+  .cart::before{content:"";position:absolute;top:5%;left:14%;right:14%;height:9%;border-radius:8px;
+    background:repeating-linear-gradient(90deg, rgba(40,70,100,.18) 0 3px, rgba(255,255,255,.35) 3px 5px, transparent 5px 10px)}
+  .cart::after{content:"";position:absolute;bottom:-7px;left:28%;right:28%;height:12px;border-radius:0 0 10px 10px;
+    background:linear-gradient(rgba(140,160,180,.9), rgba(95,118,140,.9))}
   .etiqueta{
     position:absolute;left:10%;right:10%;top:19%;bottom:9%;border-radius:14px;overflow:hidden;
     background:linear-gradient(170deg, color-mix(in srgb, var(--c) 70%, white), var(--c) 55%, color-mix(in srgb, var(--c) 75%, black));
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6%;
-    box-shadow: inset 0 0 0 2px rgba(255,255,255,.35);
+    box-shadow:inset 0 0 0 2px rgba(255,255,255,.35);
   }
-  .etiqueta::after{
-    content:"";position:absolute;left:-10%;right:-10%;top:-30%;height:62%;border-radius:0 0 50% 50%;
-    background:linear-gradient(rgba(255,255,255,.6), rgba(255,255,255,.08));
-  }
+  .etiqueta::after{content:"";position:absolute;left:-10%;right:-10%;top:-30%;height:62%;border-radius:0 0 50% 50%;
+    background:linear-gradient(rgba(255,255,255,.6), rgba(255,255,255,.08))}
   .etiqueta svg{width:44%;height:auto;filter:drop-shadow(0 3px 4px rgba(0,0,0,.25));position:relative;z-index:1}
-  .etiqueta .nom{
-    position:relative;z-index:1;color:#fff;font-weight:800;text-align:center;padding:0 8%;
-    font-size:calc(var(--h)*.075);line-height:1.1;text-shadow:0 2px 3px rgba(0,0,0,.35);
-  }
+  .etiqueta .nom{position:relative;z-index:1;color:#fff;font-weight:800;text-align:center;padding:0 8%;
+    font-size:calc(var(--h)*.075);line-height:1.1;text-shadow:0 2px 3px rgba(0,0,0,.35)}
   .cart.falta .etiqueta{filter:grayscale(.85) brightness(.95)}
 
-  /* Panel de vidrio */
-  .panel{
-    position:relative;z-index:2;width:min(92vw,520px);
-    display:flex;align-items:center;gap:18px;padding:14px 16px 14px 22px;
-    border-radius:30px;
+  .panel{position:relative;z-index:2;width:min(92vw,520px);display:flex;align-items:center;gap:18px;
+    padding:14px 16px 14px 22px;border-radius:30px;
     background:linear-gradient(rgba(255,255,255,.55), rgba(255,255,255,.25));
-    -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
-    border:1px solid rgba(255,255,255,.85);
-    box-shadow: inset 0 2px 0 rgba(255,255,255,.9), 0 10px 26px rgba(4,55,105,.25);
-    margin-bottom:3vh;
-  }
+    -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.85);
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.9), 0 10px 26px rgba(4,55,105,.25)}
   .datos{flex:1;min-width:0}
-  .titulo{margin:0;font-size:21px;font-weight:800;color:var(--azul-hondo);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .titulo{margin:0;font-size:21px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .motor{margin:2px 0 8px;font-size:14px;color:#1F5F92}
   .estado{display:inline-block;font-size:13px;font-weight:700;padding:4px 12px;border-radius:999px;color:#fff;
     background:linear-gradient(#55D46A,#1E9B3A);box-shadow:inset 0 1px 0 rgba(255,255,255,.6)}
   .estado.no{background:linear-gradient(#B9C4CE,#7F8C98)}
+  .estado.inst{background:linear-gradient(#6EC8FF,#1B78C4)}
   .puntos{display:flex;gap:7px;margin-top:10px}
-  .punto{width:10px;height:10px;border-radius:50%;background:var(--c);opacity:.35;border:none;padding:0;
-    box-shadow:inset 0 1px 1px rgba(255,255,255,.7)}
+  .punto{width:10px;height:10px;border-radius:50%;background:var(--c);opacity:.35;border:none;padding:0;box-shadow:inset 0 1px 1px rgba(255,255,255,.7)}
   .punto.activo{opacity:1;transform:scale(1.25)}
-
-  /* Botón A estilo N64 */
-  .botonA{
-    flex:0 0 auto;width:88px;height:88px;border-radius:50%;border:none;position:relative;
+  .botonA{flex:0 0 auto;width:88px;height:88px;border-radius:50%;border:none;position:relative;
     font:800 40px/1 "Segoe UI",Roboto,sans-serif;color:#fff;
     background:radial-gradient(circle at 35% 30%, #A9C8FF 0%, #3B6FD0 45%, #1A3F8C 100%);
-    box-shadow: inset 0 -7px 12px rgba(0,0,0,.28), inset 0 3px 0 rgba(255,255,255,.5), 0 9px 18px rgba(10,45,115,.45);
-    text-shadow:0 2px 2px rgba(0,0,0,.35);
-    transition:transform .1s ease;
-  }
-  .botonA::after{
-    content:"";position:absolute;left:18%;right:18%;top:8%;height:38%;border-radius:50%;
-    background:linear-gradient(rgba(255,255,255,.7), rgba(255,255,255,0));
-  }
+    box-shadow:inset 0 -7px 12px rgba(0,0,0,.28), inset 0 3px 0 rgba(255,255,255,.5), 0 9px 18px rgba(10,45,115,.45);
+    text-shadow:0 2px 2px rgba(0,0,0,.35);transition:transform .1s ease}
+  .botonA::after{content:"";position:absolute;left:18%;right:18%;top:8%;height:38%;border-radius:50%;
+    background:linear-gradient(rgba(255,255,255,.7), rgba(255,255,255,0))}
   .botonA:active{transform:scale(.93)}
-  .botonA small{display:block;font-size:12px;font-weight:700;margin-top:2px;letter-spacing:.02em}
+  .botonA small{display:block;font-size:12px;font-weight:700;margin-top:2px}
   .botonA:disabled{filter:grayscale(.8);opacity:.75}
+  .firma{position:relative;z-index:2;border:none;background:none;margin:8px 0 2vh;font:600 13px "Segoe UI",Roboto,sans-serif;
+    color:#0B4A7E;text-decoration:underline dotted;text-underline-offset:3px}
   button:focus-visible,.cart:focus-visible{outline:3px solid #fff;outline-offset:4px}
 
-  .aviso{
-    position:fixed;left:50%;bottom:5vh;transform:translate(-50%,30px);opacity:0;z-index:5;
+  /* Capas (instalador / créditos) */
+  .capa{position:fixed;inset:0;z-index:6;display:none;align-items:center;justify-content:center;padding:4vw;
+    background:rgba(4,40,80,.35);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+  .capa.ver{display:flex}
+  .hoja{width:min(94vw,520px);max-height:86vh;overflow:auto;border-radius:28px;padding:20px 20px 16px;
+    background:linear-gradient(rgba(255,255,255,.95), rgba(222,244,255,.92));border:1px solid #fff;
+    box-shadow:inset 0 2px 0 #fff, 0 20px 40px rgba(4,40,80,.4)}
+  .hoja h2{margin:0 0 4px;font-size:24px;font-weight:800}
+  .hoja p{margin:0 0 10px;font-size:14px;line-height:1.45;color:#1F5F92}
+  .fila{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(10,95,168,.12)}
+  .fila:last-child{border-bottom:none}
+  .mini{flex:0 0 auto;width:30px;height:34px;border-radius:8px 8px 5px 5px;background:var(--c);
+    box-shadow:inset 0 2px 0 rgba(255,255,255,.6), 0 2px 5px rgba(4,55,105,.25)}
+  .fila .info{flex:1;min-width:0}
+  .fila b{display:block;font-size:15px}
+  .fila span{font-size:13px;color:#1F5F92}
+  .fila span.mal{color:#B42318}
+  .fila span.bien{color:#1E7B34}
+  .barra{height:8px;border-radius:99px;background:rgba(10,95,168,.14);overflow:hidden;margin-top:6px;display:none}
+  .barra i{display:block;height:100%;width:0;background:linear-gradient(90deg,#55D46A,#1E9B3A);transition:width .2s}
+  .permiso{display:none;margin:10px 0;padding:10px 12px;border-radius:14px;background:rgba(247,197,30,.25);font-size:14px}
+  .acciones{display:flex;gap:10px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}
+  .btn{border-radius:999px;padding:11px 18px;font:700 15px "Segoe UI",Roboto,sans-serif;border:1px solid rgba(255,255,255,.9)}
+  .btn.prim{color:#fff;background:linear-gradient(#55D46A,#1E9B3A);box-shadow:inset 0 1px 0 rgba(255,255,255,.6), 0 6px 14px rgba(20,110,50,.35)}
+  .btn.sec{color:var(--azul-hondo);background:linear-gradient(#fff,#E4F3FD);box-shadow:0 4px 10px rgba(4,55,105,.18)}
+  .btn:disabled{opacity:.55}
+  .creditos h3{margin:14px 0 4px;font-size:15px}
+  .creditos li{font-size:14px;margin:3px 0;color:#1F5F92}
+  .creditos ul{margin:0;padding-left:18px}
+
+  .aviso{position:fixed;left:50%;bottom:5vh;transform:translate(-50%,30px);opacity:0;z-index:8;
     width:min(88vw,460px);padding:12px 18px;border-radius:18px;text-align:center;font-size:15px;
-    background:rgba(255,255,255,.85);color:var(--azul-hondo);
-    box-shadow:0 10px 24px rgba(4,55,105,.3);transition:all .3s ease;pointer-events:none;
-  }
+    background:rgba(255,255,255,.92);color:var(--azul-hondo);box-shadow:0 10px 24px rgba(4,55,105,.3);
+    transition:all .3s ease;pointer-events:none}
   .aviso.ver{opacity:1;transform:translate(-50%,0)}
 
   @media (orientation:landscape){
-    :root{--h:min(30vw,52vh)}
+    :root{--h:min(28vw,48vh)}
     header{margin-top:1vh}
     h1{font-size:clamp(30px,6vh,52px)}
     .sub{display:none}
-    .riel{padding-top:1.5vh;padding-bottom:1.5vh}
-    .panel{margin-bottom:2vh;padding:10px 14px 10px 20px}
+    .riel{padding-top:1vh;padding-bottom:1vh}
+    .panel{padding:10px 14px 10px 20px}
     .botonA{width:72px;height:72px;font-size:32px}
+    .firma{margin-bottom:1vh}
   }
-  @media (prefers-reduced-motion:reduce){
-    .burbuja{display:none}
-    .cart{transition:none}
-  }
+  @media (prefers-reduced-motion:reduce){.burbuja{display:none}.cart{transition:none}}
 </style>
 </head>
 <body>
 
+<audio id="rola" src="rola.mp3" loop preload="auto"></audio>
 <div class="burbujas" id="burbujas" aria-hidden="true"></div>
 
 <div class="colinas" aria-hidden="true">
@@ -181,6 +173,11 @@
   </svg>
 </div>
 
+<div class="controles">
+  <button class="pastilla" id="btnMusica" aria-label="Música">🔊</button>
+  <button class="pastilla" id="btnShips">⬇ Ships</button>
+</div>
+
 <header>
   <h1>Mozzi Ships</h1>
   <p class="sub">Desliza para elegir un cartucho</p>
@@ -195,19 +192,58 @@
     <span class="estado" id="estado"></span>
     <div class="puntos" id="puntos"></div>
   </div>
-  <button class="botonA" id="botonA" aria-label="Jugar">A<small>Jugar</small></button>
+  <button class="botonA" id="botonA" aria-label="Jugar">A<small id="botonAtexto">Jugar</small></button>
+</div>
+<button class="firma" id="btnFirma">Hecho por Mozzi y Claude (y un Dodo revivido)</button>
+
+<!-- Instalador -->
+<div class="capa" id="capaInstalador" role="dialog" aria-label="Instalar ships">
+  <div class="hoja">
+    <h2>Instalar ships</h2>
+    <p>Se instalan uno por uno y Android te pedirá confirmar cada uno. Las ROMs no vienen incluidas: cada ship te pide la tuya la primera vez que lo abres.</p>
+    <div class="permiso" id="permiso">
+      Primero permite que Mozzi Ships instale apps.
+      <div class="acciones"><button class="btn prim" id="btnPermiso">Dar permiso</button></div>
+    </div>
+    <div id="lista"></div>
+    <div class="acciones">
+      <button class="btn sec" id="btnCerrarInst">Cerrar</button>
+      <button class="btn prim" id="btnInstalarTodo">Instalar todo</button>
+    </div>
+  </div>
+</div>
+
+<!-- Créditos -->
+<div class="capa" id="capaCreditos" role="dialog" aria-label="Créditos">
+  <div class="hoja creditos">
+    <h2>Créditos</h2>
+    <p><b>Hecho por Mozzi y Claude</b> (y un Dodo revivido) 🦤</p>
+    <h3>Ships</h3>
+    <ul>
+      <li>Ship of Harkinian: Harbour Masters · Android: Waterdish</li>
+      <li>2 Ship 2 Harkinian: Harbour Masters · Android: Linkzenic</li>
+      <li>Ghostship: Harbour Masters · Android: KiritoDv y Waterdish</li>
+      <li>Starship: Harbour Masters · Android: izzy2lost</li>
+    </ul>
+    <h3>Versiones universales</h3>
+    <ul><li>SoH Universal y 2Ship Universal: Mozzi y Claude</li></ul>
+    <h3>Música</h3>
+    <ul><li>Rola del menú: Mozzi</li></ul>
+    <p style="margin-top:12px">Mozzi Ships no incluye ROMs ni contenido con derechos de autor.</p>
+    <div class="acciones"><button class="btn sec" id="btnCerrarCred">Cerrar</button></div>
+  </div>
 </div>
 
 <div class="aviso" id="aviso" role="status"></div>
 
 <script>
-  // ===== Lista de juegos: para agregar uno nuevo, copia una línea y cambia los datos =====
+  // ===== Juegos: para agregar uno, copia una línea =====
   const juegos = [
-    { nombre: "Ocarina of Time", motor: "Ship of Harkinian universal", pkg: "com.mozzi.sohuniversal", color: "#1FA14A", icono: "nota" },
-    { nombre: "Majora's Mask",   motor: "2 Ship 2 Harkinian",          pkg: "com.twoshipfork.mm",     color: "#E4202E", icono: "luna" },
-    { nombre: "Super Mario 64",  motor: "Ghostship",                   pkg: "dev.net64.ghostship",    color: "#F2B705", icono: "estrella" },
-    { nombre: "Star Fox 64",     motor: "Starship",                    pkg: "com.starship.android",   color: "#2A5DB0", icono: "nave" },
-    { nombre: "ReBoom",          motor: "Tu mod de Ocarina",           pkg: "com.dishii.soh",         color: "#7B3FC4", icono: "reloj" }
+    { id: "ocarina", nombre: "Ocarina of Time", motor: "SoH Universal",     pkgs: ["com.mozzi.sohuniversal"],                         color: "#1FA14A", icono: "nota" },
+    { id: "majora",  nombre: "Majora's Mask",   motor: "2Ship Universal",   pkgs: ["com.mozzi.twoshipuniversal", "com.twoshipfork.mm"], color: "#E4202E", icono: "luna" },
+    { id: "mario64", nombre: "Super Mario 64",  motor: "Ghostship",         pkgs: ["dev.net64.ghostship"],                            color: "#F2B705", icono: "estrella" },
+    { id: "starfox", nombre: "Star Fox 64",     motor: "Starship",          pkgs: ["com.starship.android"],                           color: "#2A5DB0", icono: "nave" },
+    { id: "reboom",  nombre: "ReBoom",          motor: "Tu mod de Ocarina", pkgs: ["com.dishii.soh"],                                 color: "#7B3FC4", icono: "reloj" }
   ];
 
   const iconos = {
@@ -219,55 +255,64 @@
   };
 
   const puente = window.Ships;
-  const estaInstalado = pkg => puente ? puente.instalado(pkg) : true;
+  const guardado = (k, v) => { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } };
+  const $ = id => document.getElementById(id);
 
-  const riel = document.getElementById('riel');
-  const puntos = document.getElementById('puntos');
-  const $titulo = document.getElementById('titulo');
-  const $motor = document.getElementById('motor');
-  const $estado = document.getElementById('estado');
-  const $botonA = document.getElementById('botonA');
-  const $aviso = document.getElementById('aviso');
-  let activo = 0;
-  let instalados = [];
+  // Info de los ships incluidos (la genera GitHub Actions al compilar)
+  let incluidos = {};
+  try { JSON.parse(puente ? puente.infoShips() : "[]").forEach(s => incluidos[s.id] = s); } catch (e) {}
+  const abisTel = puente ? puente.abis().split(",") : ["arm64-v8a"];
+  juegos.forEach(j => {
+    const s = incluidos[j.id];
+    if (s && s.pkg && !j.pkgs.includes(s.pkg)) j.pkgs.unshift(s.pkg);
+  });
+  const compatible = s => !s.abis || s.abis.length === 0 || s.abis.some(a => abisTel.includes(a));
+  const estaInstalado = pkg => puente ? puente.instalado(pkg) : false;
+  const pkgInstalado = j => j.pkgs.find(estaInstalado) || null;
+
+  // ===== Carrusel =====
+  const riel = $('riel'), puntos = $('puntos');
+  let activo = 0, instalados = [];
 
   juegos.forEach((j, i) => {
     const c = document.createElement('div');
-    c.className = 'cart';
-    c.tabIndex = 0;
-    c.setAttribute('role', 'option');
+    c.className = 'cart'; c.tabIndex = 0; c.setAttribute('role', 'option');
     c.style.setProperty('--c', j.color);
     c.innerHTML = '<div class="etiqueta">' + iconos[j.icono] + '<span class="nom">' + j.nombre + '</span></div>';
-    c.addEventListener('click', () => { i === activo ? jugar() : irA(i); });
+    c.addEventListener('click', () => { i === activo ? accionA() : irA(i); });
     riel.appendChild(c);
-
     const p = document.createElement('button');
-    p.className = 'punto';
-    p.style.setProperty('--c', j.color);
-    p.setAttribute('aria-label', j.nombre);
+    p.className = 'punto'; p.style.setProperty('--c', j.color); p.setAttribute('aria-label', j.nombre);
     p.addEventListener('click', () => irA(i));
     puntos.appendChild(p);
   });
-  const carts = [...riel.children];
-  const dots = [...puntos.children];
+  const carts = [...riel.children], dots = [...puntos.children];
 
   function refrescar() {
-    instalados = juegos.map(j => estaInstalado(j.pkg));
+    instalados = juegos.map(pkgInstalado);
     carts.forEach((c, i) => c.classList.toggle('falta', !instalados[i]));
     pintar();
+    pintarLista();
   }
   window.refrescar = refrescar;
 
   function pintar() {
-    const j = juegos[activo];
+    const j = juegos[activo], s = incluidos[j.id];
     carts.forEach((c, i) => { c.classList.toggle('activo', i === activo); c.setAttribute('aria-selected', i === activo); });
     dots.forEach((d, i) => d.classList.toggle('activo', i === activo));
-    $titulo.textContent = j.nombre;
-    $motor.textContent = j.motor;
-    const ok = instalados[activo];
-    $estado.textContent = ok ? 'Listo para jugar' : 'No instalado';
-    $estado.classList.toggle('no', !ok);
-    $botonA.disabled = !ok;
+    $('titulo').textContent = j.nombre;
+    $('motor').textContent = j.motor;
+    const est = $('estado'), A = $('botonA');
+    est.className = 'estado';
+    if (instalados[activo]) {
+      est.textContent = 'Listo para jugar'; $('botonAtexto').textContent = 'Jugar'; A.disabled = false;
+    } else if (s && compatible(s)) {
+      est.textContent = 'Incluido, sin instalar'; est.classList.add('inst'); $('botonAtexto').textContent = 'Instalar'; A.disabled = false;
+    } else if (s) {
+      est.textContent = 'No compatible con este teléfono'; est.classList.add('no'); $('botonAtexto').textContent = 'Jugar'; A.disabled = true;
+    } else {
+      est.textContent = 'No instalado'; est.classList.add('no'); $('botonAtexto').textContent = 'Jugar'; A.disabled = true;
+    }
   }
 
   function irA(i) {
@@ -277,44 +322,144 @@
   }
 
   function avisar(texto) {
-    $aviso.textContent = texto;
-    $aviso.classList.add('ver');
-    clearTimeout(avisar.t);
-    avisar.t = setTimeout(() => $aviso.classList.remove('ver'), 3200);
+    const a = $('aviso'); a.textContent = texto; a.classList.add('ver');
+    clearTimeout(avisar.t); avisar.t = setTimeout(() => a.classList.remove('ver'), 3400);
   }
 
-  function jugar() {
-    const j = juegos[activo];
-    if (!instalados[activo]) { avisar(j.nombre + ' no está instalado. Instala su APK desde Descargas › Ships.'); return; }
-    const ok = puente ? puente.abrir(j.pkg) : true;
-    if (!ok) avisar('No se pudo abrir ' + j.nombre + '. Revisa que la app esté instalada.');
+  function accionA() {
+    const j = juegos[activo], pkg = instalados[activo], s = incluidos[j.id];
+    if (pkg) {
+      if (!(puente ? puente.abrir(pkg) : true)) avisar('No se pudo abrir ' + j.nombre + '. Revisa que esté instalado.');
+    } else if (s && compatible(s)) {
+      abrirInstalador(); instalarCola([j.id]);
+    } else {
+      avisar(j.nombre + ' no está disponible para este teléfono.');
+    }
   }
-  $botonA.addEventListener('click', jugar);
+  $('botonA').addEventListener('click', accionA);
 
-  // Detectar el cartucho del centro al deslizar
   let t;
   riel.addEventListener('scroll', () => {
     clearTimeout(t);
     t = setTimeout(() => {
       const centro = riel.scrollLeft + riel.clientWidth / 2;
       let mejor = 0, dist = Infinity;
-      carts.forEach((c, i) => {
-        const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - centro);
-        if (d < dist) { dist = d; mejor = i; }
-      });
+      carts.forEach((c, i) => { const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - centro); if (d < dist) { dist = d; mejor = i; } });
       if (mejor !== activo) { activo = mejor; pintar(); }
     }, 60);
   });
 
-  // Control / teclado
   document.addEventListener('keydown', e => {
+    if ($('capaInstalador').classList.contains('ver') || $('capaCreditos').classList.contains('ver')) {
+      if (e.key === 'Escape' || e.key === 'Backspace') { cerrarCapas(); e.preventDefault(); }
+      return;
+    }
     if (e.key === 'ArrowRight') { irA(activo + 1); e.preventDefault(); }
     else if (e.key === 'ArrowLeft') { irA(activo - 1); e.preventDefault(); }
-    else if (e.key === 'Enter' || e.key === ' ' || e.key === 'GamepadA') { jugar(); e.preventDefault(); }
+    else if (e.key === 'Enter' || e.key === ' ') { accionA(); e.preventDefault(); }
   });
 
-  // Burbujas
-  const capa = document.getElementById('burbujas');
+  // ===== Instalador =====
+  const filas = {};
+  let cola = [], instalando = null;
+
+  function textoFila(j) {
+    const s = incluidos[j.id];
+    if (instalados[juegos.indexOf(j)]) return ['Instalado ✓', 'bien'];
+    if (!s) return ['No viene incluido en esta versión', ''];
+    if (!compatible(s)) return ['No compatible con este teléfono', 'mal'];
+    return ['Listo para instalar', ''];
+  }
+
+  function pintarLista() {
+    const lista = $('lista');
+    if (!lista.childElementCount) {
+      juegos.filter(j => incluidos[j.id]).forEach(j => {
+        const f = document.createElement('div');
+        f.className = 'fila';
+        f.innerHTML = '<div class="mini" style="--c:' + j.color + '"></div><div class="info"><b>' + j.nombre +
+          '</b><span></span><div class="barra"><i></i></div></div>';
+        lista.appendChild(f);
+        filas[j.id] = f;
+      });
+      if (!lista.childElementCount) lista.innerHTML = '<p>Esta versión no trae ships incluidos.</p>';
+    }
+    juegos.forEach(j => {
+      const f = filas[j.id]; if (!f || j.id === instalando) return;
+      const [txt, cls] = textoFila(j);
+      const sp = f.querySelector('span');
+      if (!sp.dataset.fijo) { sp.textContent = txt; sp.className = cls; }
+    });
+    $('btnInstalarTodo').disabled = !!instalando || pendientes().length === 0;
+    $('permiso').style.display = (puente && !puente.puedeInstalar()) ? 'block' : 'none';
+  }
+
+  const pendientes = () => juegos.filter((j, i) => incluidos[j.id] && compatible(incluidos[j.id]) && !instalados[i]).map(j => j.id);
+
+  function ponerFila(id, texto, cls, pct) {
+    const f = filas[id]; if (!f) return;
+    const sp = f.querySelector('span');
+    sp.textContent = texto; sp.className = cls || ''; sp.dataset.fijo = cls === 'mal' ? '1' : '';
+    const barra = f.querySelector('.barra');
+    if (pct === undefined) { barra.style.display = 'none'; }
+    else { barra.style.display = 'block'; barra.firstChild.style.width = pct + '%'; }
+  }
+
+  function abrirInstalador() { $('capaInstalador').classList.add('ver'); pintarLista(); }
+  function cerrarCapas() { $('capaInstalador').classList.remove('ver'); $('capaCreditos').classList.remove('ver'); }
+
+  function instalarCola(ids) {
+    if (puente && !puente.puedeInstalar()) { pintarLista(); avisar('Primero toca "Dar permiso".'); return; }
+    ids.forEach(id => { if (!cola.includes(id) && id !== instalando) cola.push(id); });
+    if (!instalando) siguiente();
+  }
+
+  function siguiente() {
+    instalando = cola.shift() || null;
+    pintarLista();
+    if (!instalando) { refrescar(); return; }
+    const s = incluidos[instalando];
+    ponerFila(instalando, 'Preparando…', '', 0);
+    if (puente) puente.instalar(instalando, s.archivo);
+  }
+
+  window.progresoInstalacion = (id, pct) => ponerFila(id, 'Copiando ' + pct + '%', '', pct);
+  window.esperandoConfirmacion = id => ponerFila(id, 'Confirma la instalación en la ventana de Android', '', 100);
+  window.resultadoInstalacion = (id, ok, msg) => {
+    if (ok) ponerFila(id, 'Instalado ✓', 'bien');
+    else if (msg === 'conflicto') ponerFila(id, 'Ya tienes otra versión firmada distinto. Desinstálala y vuelve a intentar.', 'mal');
+    else if (msg === 'cancelado') ponerFila(id, 'Cancelado. Toca "Instalar todo" para reintentar.', '');
+    else if (msg === 'espacio') ponerFila(id, 'No hay espacio suficiente en el teléfono.', 'mal');
+    else if (msg === 'incompatible') ponerFila(id, 'No compatible con este teléfono.', 'mal');
+    else ponerFila(id, 'No se pudo instalar: ' + msg, 'mal');
+    if (id === instalando) { instalados = juegos.map(pkgInstalado); siguiente(); }
+  };
+
+  $('btnShips').addEventListener('click', abrirInstalador);
+  $('btnCerrarInst').addEventListener('click', cerrarCapas);
+  $('btnInstalarTodo').addEventListener('click', () => instalarCola(pendientes()));
+  $('btnPermiso').addEventListener('click', () => puente && puente.pedirPermiso());
+  $('btnFirma').addEventListener('click', () => $('capaCreditos').classList.add('ver'));
+  $('btnCerrarCred').addEventListener('click', cerrarCapas);
+  document.querySelectorAll('.capa').forEach(c => c.addEventListener('click', e => { if (e.target === c && !instalando) cerrarCapas(); }));
+
+  // ===== Música =====
+  const rola = $('rola');
+  rola.volume = 0.6;
+  let silencio = guardado('silencio') === '1';
+  function pintarMusica() { $('btnMusica').textContent = silencio ? '🔇' : '🔊'; }
+  function sonar() { if (!silencio) rola.play().catch(() => {}); }
+  $('btnMusica').addEventListener('click', () => {
+    silencio = !silencio; guardado('silencio', silencio ? '1' : '0'); pintarMusica();
+    silencio ? rola.pause() : sonar();
+  });
+  document.addEventListener('pointerdown', function primerToque() { sonar(); document.removeEventListener('pointerdown', primerToque); });
+  window.alSalir = () => rola.pause();
+  window.alVolver = () => { sonar(); refrescar(); };
+  pintarMusica();
+
+  // ===== Burbujas =====
+  const capa = $('burbujas');
   for (let i = 0; i < 14; i++) {
     const b = document.createElement('div');
     b.className = 'burbuja';
@@ -327,7 +472,9 @@
   }
 
   refrescar();
+  sonar();
   requestAnimationFrame(() => irA(0));
+  if (!guardado('vioInstalador') && pendientes().length) { guardado('vioInstalador', '1'); abrirInstalador(); }
 </script>
 </body>
 </html>

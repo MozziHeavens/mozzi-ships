@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
 }
 
+def mozziKsPath = System.getenv("MOZZI_KS_PATH")
+
 android {
     namespace 'com.mozzi.ships'
     compileSdk 34
@@ -10,8 +12,31 @@ android {
         applicationId 'com.mozzi.ships'
         minSdk 24
         targetSdk 34
-        versionCode 1
-        versionName '1.0'
+        versionCode 2
+        versionName '2.0'
+    }
+
+    signingConfigs {
+        mozzi {
+            if (mozziKsPath) {
+                storeFile file(mozziKsPath)
+                storePassword System.getenv("MOZZI_KS_PASS")
+                keyAlias System.getenv("MOZZI_KEY_ALIAS") ?: "mozzi"
+                keyPassword System.getenv("MOZZI_KS_PASS")
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            if (mozziKsPath) {
+                signingConfig signingConfigs.mozzi
+            }
+        }
+    }
+
+    androidResources {
+        noCompress 'apk', 'mp3'
     }
 
     compileOptions {
